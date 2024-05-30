@@ -2,6 +2,7 @@ import pyttsx3
 import speech_recognition as sr
 import wikipedia
 import webbrowser
+import datetime
 
 # Taking pre-built voice from system
 engine = pyttsx3.init('sapi5') # Create a new engine instance
@@ -32,16 +33,35 @@ def speech_to_text():
             print(e)
     return output_text
 
+# Wishing the user
+
+def wish():
+    hour = datetime.datetime.now().hour
+    if hour>=5 and hour<12:
+        text_to_speech("Hi Sir, Good morning. Have a nice day. How can I help you?")
+    elif hour>=12 and hour<16:
+        text_to_speech("Hi Sir, Good afternoon. What do want to do?")
+    elif hour>=16 and hour<23:
+        text_to_speech("Hi Sir, Good evening. What do want to do?")
+    else:
+        text_to_speech("Hi Sir, Good night.")
+
 if __name__ == "__main__":
+    #wish the user
+    wish()
     query = speech_to_text().lower()
     
-    if 'wikipedia' in query:
+    #ask where do want to search or what application to be open
+    text_to_speech("where do want to search")
+    app = speech_to_text().lower()
+
+    if 'wikipedia' in app:
         text_to_speech("Searching in wikipedia")
         answer = wikipedia.summary(query, sentences = 2) # search the query in wikipedia
         print(answer)
         text_to_speech("According to wikipedia")
         text_to_speech(answer)
-    elif 'youtube' in query:
+    elif 'youtube' in app:
         text_to_speech("opening youtube")
         webbrowser.open("https://www.youtube.com/")
 
